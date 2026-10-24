@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بن الغرباوي | أجود أنواع البن</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* تنسيقات السلة والنموذج */
+      .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+      .cart-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+      .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 10px 0; }
+      .cart-total { font-size: 20px; font-weight: bold; margin-top: 20px; text-align: left; color: #c45a38; }
+      .form-group { margin-bottom: 15px; text-align: right; }
+      .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+      .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+      .checkout-btn { background: #c45a38; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+      .checkout-btn:hover { background: #a35035; }
+      .close-btn { background: #ccc; color: #333; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+      .success-msg { display: none; text-align: center; color: green; font-weight: bold; margin-top: 20px; padding: 20px; background: #e8f5e9; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">توصيل مجاني للطلبات فوق ١٠٠ ج.م داخل القاهرة والجيزة</div>
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <h2>بن الغرباوي</h2>
+          <span>منذ ١٩٨٥</span>
+        </div>
+        <nav>
+          <a href="#">التصنيفات</a>
+          <a href="#">المنتجات</a>
+          <a href="#">قصتنا</a>
+        </nav>
+        <div class="cart-icon" onclick="toggleCart()" style="position: relative;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span id="cart-count" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; display: none;">0</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="badge">محمص طازج كل صباح</div>
+        <h1>أجود أنواع البن</h1>
+        <p>حبوب مختارة من أفضل المزارع حول العالم، تُحمّص بخبرة أربعين عاماً لتصل إليك برائحتها الأصلية حتى باب بيتك.</p>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <div class="section-title">
+        <h2>منتجاتنا</h2>
+        <p>اختر ما يناسب ذوقك من أجود أنواع البن</p>
+      </div>
+      <main class="grid" id="products-container">
+        <p style="text-align: center; width: 100%">جاري تحميل المنتجات...</p>
+      </main>
+    </section>
+
+    <!-- نافذة السلة وإتمام الطلب -->
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-content">
+        <h2 style="margin-bottom: 20px;">سلة المشتريات</h2>
+        <div id="cart-items-container"></div>
+        <div class="cart-total" id="cart-total-display">الإجمالي: 0 ج.م</div>
+
+        <form id="checkout-form" style="margin-top: 20px;">
+          <h3 style="margin-bottom: 15px; border-top: 1px solid #eee; padding-top: 15px;">بيانات التوصيل</h3>
+          <div class="form-group">
+            <label>الاسم بالكامل</label>
+            <input type="text" id="cust-name" required placeholder="أدخل اسمك" />
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" id="cust-phone" required placeholder="01xxxxxxxxx" />
+          </div>
+          <div class="form-group">
+            <label>العنوان بالتفصيل</label>
+            <input type="text" id="cust-address" required placeholder="اسم الشارع، رقم العمارة..." />
+          </div>
+          <div class="form-group">
+            <label>المنطقة / المحافظة</label>
+            <input type="text" id="cust-region" required placeholder="مثال: مدينة نصر، القاهرة" />
+          </div>
+          <div class="form-group">
+            <label>ملاحظات إضافية (اختياري)</label>
+            <textarea id="cust-notes" rows="2" placeholder="أي تعليمات خاصة للتوصيل"></textarea>
+          </div>
+          <div style="background: #fdfaf8; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+            <strong>طريقة الدفع:</strong> الدفع عند الاستلام
+          </div>
+          <button type="submit" class="checkout-btn" id="submit-btn">تأكيد الطلب</button>
+          <button type="button" class="close-btn" onclick="toggleCart()" style="width: 100%;">إلغاء والعودة</button>
+        </form>
+        <div class="success-msg" id="success-msg">
+          ✅ تم إرسال طلبك بنجاح! <br> رقم الطلب: <span id="order-id" style="font-size: 24px; color: #2e7d32;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- استيراد مكتبة Supabase الرسمية -->
+    <script type="module">
+      import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+      // إعدادات قاعدة البيانات الخاصة بك
+      const SUPABASE_URL = "https://oorgzrldjvbxnsyfyfoo.supabase.co";
+      const SUPABASE_KEY = "sb_publishable_VvpeOyVYsxqeKH4uECDTNw_qhAdaab2";
+      
+      const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      let cart = [];
+
+      // جلب المنتجات
+      async function loadProducts() {
+        const container = document.getElementById("products-container");
+        try {
+          const { data: products, error } = await supabase.from('products').select('*').eq('is_active', true);
+          if (error) throw error;
+          
+          if (!products || products.length === 0) {
+            container.innerHTML = '<p style="text-align:center; width:100%;">لا توجد منتجات حالياً.</p>';
+            return;
+          }
+
+          container.innerHTML = "";
+          products.forEach((p) => {
+            const img = p.image_uri || "https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=500";
+            container.innerHTML += `
+              <div class="card">
+                <div class="img-wrapper"><img src="${img}" alt="${p.name}"></div>
+                <div class="card-content">
+                  <h3>${p.name}</h3>
+                  <p class="price">${p.price} <span>ج.م</span></p>
+                  <button onclick="addToCart('${p.id}', '${p.name}', ${p.price})">أضف للسلة</button>
+                </div>
+              </div>
+            `;
+          });
+        } catch (error) {
+          container.innerHTML = `<p style="color:red; text-align:center; width:100%;">حدث خطأ: ${error.message}</p>`;
+        }
+      }
+
+      // إدارة السلة
+      window.addToCart = function(id, name, price) {
+        const existingItem = cart.find(item => item.id === id);
+        if (existingItem) existingItem.quantity += 1;
+        else cart.push({ id, name, price, quantity: 1 });
+        updateCartUI();
+      }
+
+      window.removeFromCart = function(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+      }
+
+      function updateCartUI() {
+        const countSpan = document.getElementById("cart-count");
+        const cartContainer = document.getElementById("cart-items-container");
+        const totalDisplay = document.getElementById("cart-total-display");
+        
+        let total = 0; let totalItems = 0;
+        cartContainer.innerHTML = "";
+
+        if (cart.length === 0) {
+          cartContainer.innerHTML = "<p style='text-align:center; color:#777;'>السلة فارغة</p>";
+          countSpan.style.display = "none";
+        } else {
+          cart.forEach((item, index) => {
+            total += item.price * item.quantity;
+            totalItems += item.quantity;
+            cartContainer.innerHTML += `
+              <div class="cart-item">
+                <span>${item.name} (x${item.quantity})</span>
+                <span>${item.price * item.quantity} ج.م</span>
+                <button onclick="removeFromCart(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size: 14px;">إزالة</button>
+              </div>
+            `;
+          });
+          countSpan.innerText = totalItems;
+          countSpan.style.display = "inline-block";
+        }
+        totalDisplay.innerText = `الإجمالي: ${total} ج.م`;
+      }
+
+      window.toggleCart = function() {
+        const modal = document.getElementById("cartModal");
+        modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+      }
+
+      // إرسال الطلب
+      document.getElementById("checkout-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (cart.length === 0) return alert("السلة فارغة!");
+
+        const btn = document.getElementById("submit-btn");
+        btn.innerText = "جاري إرسال الطلب...";
+        btn.disabled = true;
+
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        const orderData = {
+          customer_name: document.getElementById("cust-name").value,
+          customer_phone: document.getElementById("cust-phone").value,
+          customer_address: document.getElementById("cust-address").value,
+          customer_region: document.getElementById("cust-region").value,
+          notes: document.getElementById("cust-notes").value,
+          total_amount: total
+        };
+
+        try {
+          const { data: newOrder, error: orderError } = await supabase.from('orders').insert([orderData]).select();
+          if (orderError) throw orderError;
+          
+          const orderId = newOrder[0].id;
+          const itemsData = cart.map(item => ({
+            order_id: orderId,
+            product_id: item.id,
+            quantity: item.quantity,
+            price_at_time: item.price
+          }));
+
+          const { error: itemsError } = await supabase.from('order_items').insert(itemsData);
+          if (itemsError) throw itemsError;
+
+          document.getElementById("checkout-form").style.display = "none";
+          document.querySelector('.cart-total').style.display = "none";
+          document.querySelector('h2').style.display = "none";
+          document.getElementById("success-msg").style.display = "block";
+          document.getElementById("order-id").innerText = orderId.split('-')[0].toUpperCase();
+          
+          cart = [];
+          updateCartUI();
+
+        } catch (error) {
+          alert("حدث خطأ أثناء الطلب: " + error.message);
+        } finally {
+          btn.innerText = "تأكيد الطلب";
+          btn.disabled = false;
+        }
+      });
+
+      loadProducts();
+    </script>
+  </body>
+</html>
