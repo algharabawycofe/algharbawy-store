@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Cairo", sans-serif;
+}
+
+body {
+  background-color: #fbfbfb;
+  color: #3e2723;
+}
+
+.top-bar {
+  background-color: #a35035;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+header {
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.logo {
+  text-align: center;
+  color: #8a3a25;
+}
+
+.logo h2 {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.logo span {
+  font-size: 12px;
+  color: #777;
+  display: block;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #5d4037;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #a35035;
+}
+
+.cart-icon {
+  background: #fdfaf8;
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  cursor: pointer;
+  color: #5d4037;
+}
+
+.hero {
+  background-image: linear-gradient(
+      to left,
+      rgba(62, 39, 35, 0.8),
+      rgba(62, 39, 35, 0.4)
+    ),
+    url("https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=1920&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 10%;
+  border-radius: 20px;
+  max-width: 1400px;
+  margin: 20px auto;
+}
+
+.hero-content {
+  color: white;
+  max-width: 500px;
+  text-align: right;
+}
+
+.badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.hero h1 {
+  font-size: 60px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #e0e0e0;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.hero-buttons button {
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background-color: #c45a38;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #a35035;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white !important;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.products-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title h2 {
+  font-size: 36px;
+  color: #3e2723;
+  margin-bottom: 10px;
+}
+
+.section-title p {
+  color: #777;
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #f0f0f0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.img-wrapper {
+  width: 100%;
+  height: 250px;
+  background-color: #f9f9f9;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.card:hover .img-wrapper img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 20px;
+  color: #3e2723;
+  margin-bottom: 10px;
+}
+
+.price {
+  color: #c45a38;
+  font-weight: bold;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.price span {
+  font-size: 14px;
+}
+
+.card button {
+  background-color: #3e2723;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.card button:hover {
+  background-color: #c45a38;
+}
